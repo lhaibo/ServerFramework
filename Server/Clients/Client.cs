@@ -14,21 +14,74 @@ namespace ServerFramework.Clients
 {
     class Client
     {
+        /// <summary>
+        /// 客户端socket
+        /// </summary>
         private Socket socket;
+
+        /// <summary>
+        /// 网络传输消息
+        /// </summary>
         private Message message;
+
+        /// <summary>
+        /// 用户数据
+        /// </summary>
         private UserData userData;
+
+        /// <summary>
+        /// 服务器
+        /// </summary>
         private Server server;
 
+        /// <summary>
+        /// 用户名
+        /// </summary>
         private string username;
+
+        /// <summary>
+        /// client所在房间
+        /// </summary>
         private Room room;
+
+        /// <summary>
+        /// 客户端玩家生命值
+        /// </summary>
         private int hp;
+
+        /// <summary>
+        /// 客户端玩家坐标数据包
+        /// </summary>
         private PostionPack pos;
 
+        /// <summary>
+        /// 用户数据属性
+        /// </summary>
         public UserData UserData { get => userData;}
+
+        /// <summary>
+        /// 用户名
+        /// </summary>
         public string Username { get => username; set => username = value; }
+
+        /// <summary>
+        /// 客户端所在房间
+        /// </summary>
         public Room Room { get => room; set => room = value; }
+
+        /// <summary>
+        /// 客户端socket
+        /// </summary>
         public Socket Socket { get => socket; set => socket = value; }
+
+        /// <summary>
+        /// 客户端玩家生命值
+        /// </summary>
         public int Hp { get => hp; set => hp = value; }
+
+        /// <summary>
+        /// 客户端玩家坐标数据包
+        /// </summary>
         public PostionPack Pos { get => pos; set => pos = value; }
 
         /// <summary>
@@ -40,7 +93,7 @@ namespace ServerFramework.Clients
         {
             userData = new UserData();
             message = new Message();
-            this.Socket = socket;
+            this.socket = socket;
             this.server = server;
             StartReceive();
         }
@@ -50,8 +103,8 @@ namespace ServerFramework.Clients
         /// </summary>
         private void StartReceive()
         {
-            Socket.BeginReceive(message.Buffer,message.StartIndex,message.RemSize,SocketFlags.None,ReceiveCallBack,null);
-            Console.WriteLine(DateTime.Now + ":开始等待"+ Socket.RemoteEndPoint+ "发送消息....");
+            socket.BeginReceive(message.Buffer,message.StartIndex,message.RemSize,SocketFlags.None,ReceiveCallBack,null);
+            Console.WriteLine(DateTime.Now + ":开始等待"+ socket.RemoteEndPoint+ "发送消息....");
         }
 
         /// <summary>
@@ -62,19 +115,19 @@ namespace ServerFramework.Clients
         {
             try
             {
-                if (Socket == null || Socket.Connected == false)
+                if (socket == null || socket.Connected == false)
                 {
                     Console.WriteLine("socket == null || socket.Connected == false");
                     return;
                 }
 
-                int len = Socket.EndReceive(ar);
+                int len = socket.EndReceive(ar);
                 if (len == 0)
                 {
                     return;
                 }
                 message.ReadBuffer(len, HandleRequest);
-                Console.WriteLine(DateTime.Now + ":已接收" + Socket.RemoteEndPoint + "发送的消息....");
+                Console.WriteLine(DateTime.Now + ":已接收" + socket.RemoteEndPoint + "发送的消息....");
                 StartReceive();
             }
             catch (Exception e)
@@ -115,18 +168,31 @@ namespace ServerFramework.Clients
             server.HandleRequest(pack, this);
         }
 
-
+        /// <summary>
+        /// 客户端注册账号
+        /// </summary>
+        /// <param name="pack">包含注册信息的数据包</param>
+        /// <returns>注册是否成功</returns>
         public bool Logon(MainPack pack)
         {
             return userData.Logon(pack);
   
         }
 
+        /// <summary>
+        /// 客户端登录账号
+        /// </summary>
+        /// <param name="pack">登录数据包</param>
+        /// <returns></returns>
         public bool Login(MainPack pack)
         {
             return userData.Login(pack);
         }
 
+        /// <summary>
+        /// 获取玩家数据包
+        /// </summary>
+        /// <returns>玩家数据包</returns>
         public PlayerPack GetPlayerPack()
         {
             PlayerPack playerPack = new PlayerPack();
@@ -136,5 +202,6 @@ namespace ServerFramework.Clients
             playerPack.PostionPack = pos;
             return playerPack;
         }
+
     }
 }
