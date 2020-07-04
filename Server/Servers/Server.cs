@@ -2,23 +2,37 @@
 using ServerFramework.Controller;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Sockets;
-using System.Text;
-using System.Threading.Tasks;
-using ServerFramework.DAO;
 using SocketDemoProtocol;
 
 namespace ServerFramework.Servers
 {
     class Server
     {
+        /// <summary>
+        /// 服务端socket
+        /// </summary>
         private Socket socket;
+        /// <summary>
+        /// 所有连接的客户端
+        /// </summary>
         private List<Client> clients;
+        /// <summary>
+        /// 所有用户创建的房间
+        /// </summary>
         private List<Room> rooms;
+        /// <summary>
+        /// 控制层
+        /// </summary>
         private ControllerManager controllerManager;
-        
+
+        /// <summary>
+        /// 初始化服务器并开始监听端口
+        /// </summary>
+        /// <param name="ip">监听的ip</param>
+        /// <param name="endPoint">监听的端口</param>
+        /// <param name="maxNumClients">最大客户端连接数</param>
         public Server(string ip,int endPoint,int maxNumClients)
         {
             controllerManager = new ControllerManager(this);
@@ -30,14 +44,19 @@ namespace ServerFramework.Servers
             StartAccept();
         }
 
+        /// <summary>
+        /// 开始异步接收
+        /// </summary>
         private void StartAccept()
         {
             socket.BeginAccept(AcceptCallBack, null);
             Console.WriteLine(DateTime.Now+":开始等待"+clients.Count+"号连接....");
         }
-
         
-
+        /// <summary>
+        /// 接收连接回调函数
+        /// </summary>
+        /// <param name="ar"></param>
         private void AcceptCallBack(IAsyncResult ar)
         {
             Socket client = socket.EndAccept(ar);
@@ -47,11 +66,22 @@ namespace ServerFramework.Servers
             StartAccept();
         }
 
+        /// <summary>
+        /// 处理请求
+        /// </summary>
+        /// <param name="pack">处理请求需要的数据包</param>
+        /// <param name="client">处理请求的client</param>
         public void HandleRequest(MainPack pack,Client client)
         {
             controllerManager.HandleRequest(pack, client);
         }
 
+        /// <summary>
+        /// 创建房间
+        /// </summary>
+        /// <param name="client">创建房间的client</param>
+        /// <param name="mainPack">数据包</param>
+        /// <returns></returns>
         public MainPack CreatRoom(Client client,MainPack mainPack)
         {
             try
@@ -74,11 +104,19 @@ namespace ServerFramework.Servers
             
         }
 
+        /// <summary>
+        /// 删除客户端
+        /// </summary>
+        /// <param name="client">要删除的client</param>
         public void RemoveClient(Client client)
         {
             clients.Remove(client);
         }
 
+        /// <summary>
+        /// 查找房间
+        /// </summary>
+        /// <returns>含有所有房间的数据包</returns>
         public MainPack SearchRoom()
         {
             MainPack pack = new MainPack();
@@ -103,6 +141,12 @@ namespace ServerFramework.Servers
             return pack;
         }
 
+        /// <summary>
+        /// 加入房间
+        /// </summary>
+        /// <param name="client">要加入房间的client</param>
+        /// <param name="pack">包含要加入房间的房间名的数据包</param>
+        /// <returns>包含ReturnCode的数据包</returns>
         public MainPack JoinRoom(Client client,MainPack pack)
         {
             foreach (Room room in rooms)
@@ -135,6 +179,12 @@ namespace ServerFramework.Servers
             return pack;
         }
 
+        /// <summary>
+        /// 退出房间
+        /// </summary>
+        /// <param name="client">退出房间的client</param>
+        /// <param name="pack">client发过来的数据包</param>
+        /// <returns>包含ReturnCode的数据包</returns>
         public MainPack ExitRoom(Client client, MainPack pack)
         {
             if (client.Room==null)
@@ -150,15 +200,25 @@ namespace ServerFramework.Servers
             }
         }
 
+        /// <summary>
+        /// 删除房间
+        /// </summary>
+        /// <param name="room"></param>
         public void RemoveRoom(Room room)
         {
             rooms.Remove(room);
         }
 
+        /// <summary>
+        /// 聊天
+        /// </summary>
+        /// <param name="client">发送聊天消息的client</param>
+        /// <param name="pack">包含聊天消息的数据包</param>
         public void Chat(Client client,MainPack pack)
         {
             pack.ChatStr = client.Username + ":" + pack.ChatStr;
             client.Room.Broadcast(client, pack);
         }
+
     }
 }

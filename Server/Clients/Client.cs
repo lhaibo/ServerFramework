@@ -31,6 +31,11 @@ namespace ServerFramework.Clients
         public int Hp { get => hp; set => hp = value; }
         public PostionPack Pos { get => pos; set => pos = value; }
 
+        /// <summary>
+        /// 初始化并开始异步接收
+        /// </summary>
+        /// <param name="socket">连接上的客户端socket</param>
+        /// <param name="server">该客户端连接上的服务端</param>
         public Client(Socket socket,Server server)
         {
             userData = new UserData();
@@ -40,12 +45,19 @@ namespace ServerFramework.Clients
             StartReceive();
         }
 
-        void StartReceive()
+        /// <summary>
+        /// 开始异步接收
+        /// </summary>
+        private void StartReceive()
         {
             Socket.BeginReceive(message.Buffer,message.StartIndex,message.RemSize,SocketFlags.None,ReceiveCallBack,null);
             Console.WriteLine(DateTime.Now + ":开始等待"+ Socket.RemoteEndPoint+ "发送消息....");
         }
 
+        /// <summary>
+        /// 异步接收回调函数
+        /// </summary>
+        /// <param name="ar"></param>
         private void ReceiveCallBack(IAsyncResult ar)
         {
             try
@@ -71,6 +83,10 @@ namespace ServerFramework.Clients
                 Console.WriteLine(e.Message);
             }
         }
+
+        /// <summary>
+        /// 客户端断开连接，如果在房间内退出房间，然后将其从服务端删除，并关闭socket
+        /// </summary>
         private void Close()
         {
             if (room!=null)
@@ -80,15 +96,25 @@ namespace ServerFramework.Clients
             server.RemoveClient(this);
             socket.Close();
         }
+
+        /// <summary>
+        /// 向远程客户端发送消息
+        /// </summary>
+        /// <param name="pack">要发送的消息包</param>
         public void Send(MainPack pack)
         {
-            Socket.Send(Message.PackData(pack));
+            socket.Send(Message.PackData(pack));
         }
 
+        /// <summary>
+        /// 处理消息包
+        /// </summary>
+        /// <param name="pack">要处理的消息包</param>
         private void HandleRequest(MainPack pack)
         {
             server.HandleRequest(pack, this);
         }
+
 
         public bool Logon(MainPack pack)
         {
