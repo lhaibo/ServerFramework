@@ -5,6 +5,18 @@ VisualStudioVersion = 16.0.30011.22
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServerFramework", "Server\ServerFramework.csproj", "{347A6FAF-865A-480D-8EB3-0EE878BCD97B}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Protobuf", "Protobuf", "{5F0B8AAC-3978-4AFB-A555-3D011BF44EA8}"
+	ProjectSection(SolutionItems) = preProject
+		Server\Protobuf\build.bat = Server\Protobuf\build.bat
+		Server\Protobuf\libprotobufd.lib = Server\Protobuf\libprotobufd.lib
+		Server\Protobuf\libprotocd.lib = Server\Protobuf\libprotocd.lib
+		Server\Protobuf\protoc.exe = Server\Protobuf\protoc.exe
+		Server\Protobuf\protoc.ilk = Server\Protobuf\protoc.ilk
+		Server\Protobuf\protoc.pdb = Server\Protobuf\protoc.pdb
+		Server\Protobuf\SocketDemoProtocol.proto = Server\Protobuf\SocketDemoProtocol.proto
+		Server\Protobuf\导出生成&使用方法.txt = Server\Protobuf\导出生成&使用方法.txt
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
