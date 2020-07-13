@@ -32,13 +32,14 @@ namespace ServerFramework.Tools
         public void ReadBuffer(int len,Action<MainPack> HandleRequest)
         {
             startIndex += len;
-            if (startIndex <= 4)
-            {
-                return;
-            }
-            int count = BitConverter.ToInt32(buffer, 0);
+            
             while (true)
             {
+                if (startIndex <= 4)
+                {
+                    return;
+                }
+                int count = BitConverter.ToInt32(buffer, 0);
                 if (startIndex>=(count+4))
                 {
                     MainPack pack = (MainPack)MainPack.Descriptor.Parser.ParseFrom(buffer, 4, count);
@@ -52,6 +53,11 @@ namespace ServerFramework.Tools
                 }
             }
         
+        }
+
+        public static byte[] PackDataUDP(MainPack pack)
+        {
+            return pack.ToByteArray();
         }
 
         public static byte[] PackData(MainPack pack)

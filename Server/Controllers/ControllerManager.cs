@@ -24,9 +24,11 @@ namespace ServerFramework.Controller
             controllerDictionary.Add(userController.RequestCode, userController);
             RoomController roomController = new RoomController();
             controllerDictionary.Add(roomController.RequestCode, roomController);
+            GameController gameController = new GameController();
+            controllerDictionary.Add(gameController.RequestCode, gameController);
         }
 
-        public void HandleRequest(MainPack pack,Client client)
+        public void HandleRequest(MainPack pack,Client client,bool isUdp=false)
         {
             if(controllerDictionary.TryGetValue(pack.RequestCode,out BaseController controller))
             {
@@ -37,11 +39,21 @@ namespace ServerFramework.Controller
                     Console.WriteLine("没有找到指定的事件处理" + pack.ActionCode.ToString());
                     return;
                 }
-                object[] obj = new object[] { server, client, pack };
-                object ret = method.Invoke(controller, obj);
-                if (ret!=null)
+                object[] obj;
+
+                if (isUdp)
                 {
-                    client.Send(ret as MainPack);
+                    obj = new object[] { client, pack };
+                    method.Invoke(controller, obj);
+                }
+                else
+                {
+                    obj = new object[] { server, client, pack };
+                    object ret = method.Invoke(controller, obj);
+                    if (ret != null)
+                    {
+                        client.Send(ret as MainPack);
+                    }
                 }
             }
             else

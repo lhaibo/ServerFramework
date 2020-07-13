@@ -56,6 +56,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Servers\Room.cs" />
     <Compile Include="Servers\Server.cs" />
+    <Compile Include="Servers\UDPServer.cs" />
     <Compile Include="SocketDemoProtocol.cs" />
     <Compile Include="Tools\Message.cs" />
   </ItemGroup>

@@ -24,8 +24,30 @@ namespace ServerFramework.Servers
             get
             {
                 roomPack.CurrentNum = clientList.Count;
+                roomPack.RoomState = GetRoomState(roomPack);
                 return roomPack;
             }
+        }
+
+        public void BroadcastTo(Client client, MainPack pack)
+        {
+            foreach (Client c in clientList)
+            {
+                if (c.Equals(client))
+                {
+                    continue;
+                }
+                c.SendTo(pack);
+            }
+        }
+
+        private RoomState GetRoomState(RoomPack roomPack)
+        {
+            if (roomPack.RoomState!=RoomState.Gaming)
+            {
+                return roomPack.CurrentNum == roomPack.MaxNum ? RoomState.Full : RoomState.Waitting;
+            }
+            return RoomState.Gaming;
         }
 
         public Room(Client client,RoomPack pack)
@@ -58,7 +80,7 @@ namespace ServerFramework.Servers
                 if (!c.Equals(client))
                 {
                     c.Send(pack);
-                    Console.WriteLine("向" + c.Socket.RemoteEndPoint + "广播消息");
+                    //Console.WriteLine("向" + c.Socket.RemoteEndPoint + "广播消息");
                 }
             }
         }
@@ -142,5 +164,29 @@ namespace ServerFramework.Servers
             Broadcast(null, pack);
         }
 
+        public void GameExit(Server server,Client client)
+        {
+            MainPack pack = new MainPack();
+            pack.ActionCode = ActionCode.GameExit;
+            if (client == clientList[0])
+            {
+                //房主退出
+                client.Room = null;
+                server.RemoveRoom(this);
+                pack.Str = "房主退出";
+            }
+            else
+            {
+                clientList.Remove(client);
+                pack.ExitGameName = client.Username;
+                pack.Str = "成员退出";
+            }
+           // Console.WriteLine("房间内剩余client数:" + clientList.Count);
+            //clientList.RemoveAt(clientList.FindIndex((c)=> {return c.Username==client.Username }));
+
+            
+            Broadcast(client, pack);
+            
+        }
     }
 }

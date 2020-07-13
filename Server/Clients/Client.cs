@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.Design;
 using System.Linq;
+using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,6 +19,11 @@ namespace ServerFramework.Clients
         /// 客户端socket
         /// </summary>
         private Socket socket;
+
+        /// <summary>
+        /// 客户端的网络地址
+        /// </summary>
+        public EndPoint RemoteEP { get; set; }
 
         /// <summary>
         /// 网络传输消息
@@ -38,6 +44,13 @@ namespace ServerFramework.Clients
         /// 用户名
         /// </summary>
         private string username;
+
+        public void SendTo(MainPack pack)
+        {
+            if (RemoteEP == null) return;
+
+            server.udpServer.SendTo(pack, RemoteEP);
+        }
 
         /// <summary>
         /// client所在房间
@@ -104,7 +117,7 @@ namespace ServerFramework.Clients
         private void StartReceive()
         {
             socket.BeginReceive(message.Buffer,message.StartIndex,message.RemSize,SocketFlags.None,ReceiveCallBack,null);
-            Console.WriteLine(DateTime.Now + ":开始等待"+ socket.RemoteEndPoint+ "发送消息....");
+            //Console.WriteLine(DateTime.Now + ":开始等待"+ socket.RemoteEndPoint+ "发送消息....");
         }
 
         /// <summary>
@@ -127,7 +140,7 @@ namespace ServerFramework.Clients
                     return;
                 }
                 message.ReadBuffer(len, HandleRequest);
-                Console.WriteLine(DateTime.Now + ":已接收" + socket.RemoteEndPoint + "发送的消息....");
+                //Console.WriteLine(DateTime.Now + ":已接收" + socket.RemoteEndPoint + "发送的消息....");
                 StartReceive();
             }
             catch (Exception e)

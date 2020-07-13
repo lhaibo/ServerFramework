@@ -49,6 +49,10 @@ enum ActionCode
     UpdateHp=12;
     //退出游戏
     GameExit=13;
+    //更新玩家位置
+    UpdatePos=14;
+    //射击
+    Shoot=15;
 }
 
 enum ReturnCode
@@ -74,6 +78,8 @@ message MainPack
     string joinRoomName=8;
     string chatStr = 9;
     string exitGameName = 10;
+    BulletPack bulletPack=11;
+    string username=12;
 }
 
 message LoginPack
@@ -106,6 +112,14 @@ message PlayerPack
 
 message PostionPack
 {
+    float x = 1;
+    float y = 2;
+    float rotZ = 3;
+}
+
+message BulletPack
+{
+
     float x = 1;
     float y = 2;
     float rotZ = 3;

@@ -25,7 +25,7 @@ namespace SocketDemoProtocol {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
             "ChhTb2NrZXREZW1vUHJvdG9jb2wucHJvdG8SElNvY2tldERlbW9Qcm90b2Nv",
-            "bCKIAwoITWFpblBhY2sSNAoLcmVxdWVzdENvZGUYASABKA4yHy5Tb2NrZXRE",
+            "bCLOAwoITWFpblBhY2sSNAoLcmVxdWVzdENvZGUYASABKA4yHy5Tb2NrZXRE",
             "ZW1vUHJvdG9jb2wuUmVxdWVzdENvZGUSMgoKYWN0aW9uQ29kZRgCIAEoDjIe",
             "LlNvY2tldERlbW9Qcm90b2NvbC5BY3Rpb25Db2RlEjIKCnJldHVybkNvZGUY",
             "AyABKA4yHi5Tb2NrZXREZW1vUHJvdG9jb2wuUmV0dXJuQ29kZRIwCglsb2dp",
@@ -33,32 +33,36 @@ namespace SocketDemoProtocol {
             "A3N0chgFIAEoCRIuCghyb29tUGFjaxgGIAMoCzIcLlNvY2tldERlbW9Qcm90",
             "b2NvbC5Sb29tUGFjaxIyCgpwbGF5ZXJQYWNrGAcgAygLMh4uU29ja2V0RGVt",
             "b1Byb3RvY29sLlBsYXllclBhY2sSFAoMam9pblJvb21OYW1lGAggASgJEg8K",
-            "B2NoYXRTdHIYCSABKAkSFAoMZXhpdEdhbWVOYW1lGAogASgJIi8KCUxvZ2lu",
-            "UGFjaxIQCgh1c2VybmFtZRgBIAEoCRIQCghwYXNzd29yZBgCIAEoCSJyCghS",
-            "b29tUGFjaxIQCghyb29tTmFtZRgBIAEoCRIOCgZtYXhOdW0YAiABKAUSEgoK",
-            "Y3VycmVudE51bRgDIAEoBRIwCglyb29tU3RhdGUYBCABKA4yHS5Tb2NrZXRE",
-            "ZW1vUHJvdG9jb2wuUm9vbVN0YXRlIoYBCgpQbGF5ZXJQYWNrEhIKCnBsYXll",
-            "ck5hbWUYASABKAkSEAoId2luQ291bnQYAiABKAUSEAoIcGxheWVySUQYAyAB",
-            "KAkSCgoCaHAYBCABKAUSNAoLcG9zdGlvblBhY2sYBSABKAsyHy5Tb2NrZXRE",
-            "ZW1vUHJvdG9jb2wuUG9zdGlvblBhY2siMQoLUG9zdGlvblBhY2sSCQoBeBgB",
-            "IAEoAhIJCgF5GAIgASgCEgwKBHJvdFoYAyABKAIqPAoLUmVxdWVzdENvZGUS",
-            "DwoLUmVxdWVzdE5vbmUQABIICgRVc2VyEAESCAoEUm9vbRACEggKBEdhbWUQ",
-            "AyovCglSb29tU3RhdGUSDAoId2FpdHRpbmcQABIKCgZnYW1pbmcQARIICgRm",
-            "dWxsEAIq1AEKCkFjdGlvbkNvZGUSDgoKQWN0aW9uTm9uZRAAEgkKBUxvZ29u",
-            "EAESCQoFTG9naW4QAhINCglDcmVhdFJvb20QAxIOCgpTZWFyY2hSb29tEAQS",
-            "DgoKUGxheWVyTGlzdBAFEgwKCEpvaW5Sb29tEAYSCAoERXhpdBAHEggKBENo",
-            "YXQQCBINCglTdGFydEdhbWUQCRITCg9TZXJ2ZXJTdGFydEdhbWUQChIPCgtV",
-            "cGRhdGVTdGF0ZRALEgwKCFVwZGF0ZUhwEAwSDAoIR2FtZUV4aXQQDSo/CgpS",
-            "ZXR1cm5Db2RlEg4KClJldHVybk5vbmUQABILCgdTdWNjZWVkEAESCAoERmFp",
-            "bBACEgoKBk5vUm9vbRADYgZwcm90bzM="));
+            "B2NoYXRTdHIYCSABKAkSFAoMZXhpdEdhbWVOYW1lGAogASgJEjIKCmJ1bGxl",
+            "dFBhY2sYCyABKAsyHi5Tb2NrZXREZW1vUHJvdG9jb2wuQnVsbGV0UGFjaxIQ",
+            "Cgh1c2VybmFtZRgMIAEoCSIvCglMb2dpblBhY2sSEAoIdXNlcm5hbWUYASAB",
+            "KAkSEAoIcGFzc3dvcmQYAiABKAkicgoIUm9vbVBhY2sSEAoIcm9vbU5hbWUY",
+            "ASABKAkSDgoGbWF4TnVtGAIgASgFEhIKCmN1cnJlbnROdW0YAyABKAUSMAoJ",
+            "cm9vbVN0YXRlGAQgASgOMh0uU29ja2V0RGVtb1Byb3RvY29sLlJvb21TdGF0",
+            "ZSKGAQoKUGxheWVyUGFjaxISCgpwbGF5ZXJOYW1lGAEgASgJEhAKCHdpbkNv",
+            "dW50GAIgASgFEhAKCHBsYXllcklEGAMgASgJEgoKAmhwGAQgASgFEjQKC3Bv",
+            "c3Rpb25QYWNrGAUgASgLMh8uU29ja2V0RGVtb1Byb3RvY29sLlBvc3Rpb25Q",
+            "YWNrIjEKC1Bvc3Rpb25QYWNrEgkKAXgYASABKAISCQoBeRgCIAEoAhIMCgRy",
+            "b3RaGAMgASgCIjAKCkJ1bGxldFBhY2sSCQoBeBgBIAEoAhIJCgF5GAIgASgC",
+            "EgwKBHJvdFoYAyABKAIqPAoLUmVxdWVzdENvZGUSDwoLUmVxdWVzdE5vbmUQ",
+            "ABIICgRVc2VyEAESCAoEUm9vbRACEggKBEdhbWUQAyovCglSb29tU3RhdGUS",
+            "DAoId2FpdHRpbmcQABIKCgZnYW1pbmcQARIICgRmdWxsEAIq7gEKCkFjdGlv",
+            "bkNvZGUSDgoKQWN0aW9uTm9uZRAAEgkKBUxvZ29uEAESCQoFTG9naW4QAhIN",
+            "CglDcmVhdFJvb20QAxIOCgpTZWFyY2hSb29tEAQSDgoKUGxheWVyTGlzdBAF",
+            "EgwKCEpvaW5Sb29tEAYSCAoERXhpdBAHEggKBENoYXQQCBINCglTdGFydEdh",
+            "bWUQCRITCg9TZXJ2ZXJTdGFydEdhbWUQChIPCgtVcGRhdGVTdGF0ZRALEgwK",
+            "CFVwZGF0ZUhwEAwSDAoIR2FtZUV4aXQQDRINCglVcGRhdGVQb3MQDhIJCgVT",
+            "aG9vdBAPKj8KClJldHVybkNvZGUSDgoKUmV0dXJuTm9uZRAAEgsKB1N1Y2Nl",
+            "ZWQQARIICgRGYWlsEAISCgoGTm9Sb29tEANiBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::SocketDemoProtocol.RequestCode), typeof(global::SocketDemoProtocol.RoomState), typeof(global::SocketDemoProtocol.ActionCode), typeof(global::SocketDemoProtocol.ReturnCode), }, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::SocketDemoProtocol.MainPack), global::SocketDemoProtocol.MainPack.Parser, new[]{ "RequestCode", "ActionCode", "ReturnCode", "LoginPack", "Str", "RoomPack", "PlayerPack", "JoinRoomName", "ChatStr", "ExitGameName" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::SocketDemoProtocol.MainPack), global::SocketDemoProtocol.MainPack.Parser, new[]{ "RequestCode", "ActionCode", "ReturnCode", "LoginPack", "Str", "RoomPack", "PlayerPack", "JoinRoomName", "ChatStr", "ExitGameName", "BulletPack", "Username" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::SocketDemoProtocol.LoginPack), global::SocketDemoProtocol.LoginPack.Parser, new[]{ "Username", "Password" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::SocketDemoProtocol.RoomPack), global::SocketDemoProtocol.RoomPack.Parser, new[]{ "RoomName", "MaxNum", "CurrentNum", "RoomState" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::SocketDemoProtocol.PlayerPack), global::SocketDemoProtocol.PlayerPack.Parser, new[]{ "PlayerName", "WinCount", "PlayerID", "Hp", "PostionPack" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::SocketDemoProtocol.PostionPack), global::SocketDemoProtocol.PostionPack.Parser, new[]{ "X", "Y", "RotZ" }, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::SocketDemoProtocol.PostionPack), global::SocketDemoProtocol.PostionPack.Parser, new[]{ "X", "Y", "RotZ" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::SocketDemoProtocol.BulletPack), global::SocketDemoProtocol.BulletPack.Parser, new[]{ "X", "Y", "RotZ" }, null, null, null)
           }));
     }
     #endregion
@@ -150,6 +154,14 @@ namespace SocketDemoProtocol {
     ///退出游戏
     /// </summary>
     [pbr::OriginalName("GameExit")] GameExit = 13,
+    /// <summary>
+    ///更新玩家位置
+    /// </summary>
+    [pbr::OriginalName("UpdatePos")] UpdatePos = 14,
+    /// <summary>
+    ///射击
+    /// </summary>
+    [pbr::OriginalName("Shoot")] Shoot = 15,
   }
 
   public enum ReturnCode {
@@ -206,6 +218,8 @@ namespace SocketDemoProtocol {
       joinRoomName_ = other.joinRoomName_;
       chatStr_ = other.chatStr_;
       exitGameName_ = other.exitGameName_;
+      bulletPack_ = other.bulletPack_ != null ? other.bulletPack_.Clone() : null;
+      username_ = other.username_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -322,6 +336,28 @@ namespace SocketDemoProtocol {
       }
     }
 
+    /// <summary>Field number for the "bulletPack" field.</summary>
+    public const int BulletPackFieldNumber = 11;
+    private global::SocketDemoProtocol.BulletPack bulletPack_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public global::SocketDemoProtocol.BulletPack BulletPack {
+      get { return bulletPack_; }
+      set {
+        bulletPack_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "username" field.</summary>
+    public const int UsernameFieldNumber = 12;
+    private string username_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string Username {
+      get { return username_; }
+      set {
+        username_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
       return Equals(other as MainPack);
@@ -345,6 +381,8 @@ namespace SocketDemoProtocol {
       if (JoinRoomName != other.JoinRoomName) return false;
       if (ChatStr != other.ChatStr) return false;
       if (ExitGameName != other.ExitGameName) return false;
+      if (!object.Equals(BulletPack, other.BulletPack)) return false;
+      if (Username != other.Username) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -361,6 +399,8 @@ namespace SocketDemoProtocol {
       if (JoinRoomName.Length != 0) hash ^= JoinRoomName.GetHashCode();
       if (ChatStr.Length != 0) hash ^= ChatStr.GetHashCode();
       if (ExitGameName.Length != 0) hash ^= ExitGameName.GetHashCode();
+      if (bulletPack_ != null) hash ^= BulletPack.GetHashCode();
+      if (Username.Length != 0) hash ^= Username.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -408,6 +448,14 @@ namespace SocketDemoProtocol {
         output.WriteRawTag(82);
         output.WriteString(ExitGameName);
       }
+      if (bulletPack_ != null) {
+        output.WriteRawTag(90);
+        output.WriteMessage(BulletPack);
+      }
+      if (Username.Length != 0) {
+        output.WriteRawTag(98);
+        output.WriteString(Username);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -441,6 +489,12 @@ namespace SocketDemoProtocol {
       }
       if (ExitGameName.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(ExitGameName);
+      }
+      if (bulletPack_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(BulletPack);
+      }
+      if (Username.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Username);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -481,6 +535,15 @@ namespace SocketDemoProtocol {
       }
       if (other.ExitGameName.Length != 0) {
         ExitGameName = other.ExitGameName;
+      }
+      if (other.bulletPack_ != null) {
+        if (bulletPack_ == null) {
+          BulletPack = new global::SocketDemoProtocol.BulletPack();
+        }
+        BulletPack.MergeFrom(other.BulletPack);
+      }
+      if (other.Username.Length != 0) {
+        Username = other.Username;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -534,6 +597,17 @@ namespace SocketDemoProtocol {
           }
           case 82: {
             ExitGameName = input.ReadString();
+            break;
+          }
+          case 90: {
+            if (bulletPack_ == null) {
+              BulletPack = new global::SocketDemoProtocol.BulletPack();
+            }
+            input.ReadMessage(BulletPack);
+            break;
+          }
+          case 98: {
+            Username = input.ReadString();
             break;
           }
         }
@@ -1324,6 +1398,191 @@ namespace SocketDemoProtocol {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void MergeFrom(PostionPack other) {
+      if (other == null) {
+        return;
+      }
+      if (other.X != 0F) {
+        X = other.X;
+      }
+      if (other.Y != 0F) {
+        Y = other.Y;
+      }
+      if (other.RotZ != 0F) {
+        RotZ = other.RotZ;
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 13: {
+            X = input.ReadFloat();
+            break;
+          }
+          case 21: {
+            Y = input.ReadFloat();
+            break;
+          }
+          case 29: {
+            RotZ = input.ReadFloat();
+            break;
+          }
+        }
+      }
+    }
+
+  }
+
+  public sealed partial class BulletPack : pb::IMessage<BulletPack> {
+    private static readonly pb::MessageParser<BulletPack> _parser = new pb::MessageParser<BulletPack>(() => new BulletPack());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<BulletPack> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::SocketDemoProtocol.SocketDemoProtocolReflection.Descriptor.MessageTypes[5]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public BulletPack() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public BulletPack(BulletPack other) : this() {
+      x_ = other.x_;
+      y_ = other.y_;
+      rotZ_ = other.rotZ_;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public BulletPack Clone() {
+      return new BulletPack(this);
+    }
+
+    /// <summary>Field number for the "x" field.</summary>
+    public const int XFieldNumber = 1;
+    private float x_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public float X {
+      get { return x_; }
+      set {
+        x_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "y" field.</summary>
+    public const int YFieldNumber = 2;
+    private float y_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public float Y {
+      get { return y_; }
+      set {
+        y_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "rotZ" field.</summary>
+    public const int RotZFieldNumber = 3;
+    private float rotZ_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public float RotZ {
+      get { return rotZ_; }
+      set {
+        rotZ_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as BulletPack);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(BulletPack other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(X, other.X)) return false;
+      if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(Y, other.Y)) return false;
+      if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(RotZ, other.RotZ)) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (X != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(X);
+      if (Y != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(Y);
+      if (RotZ != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(RotZ);
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (X != 0F) {
+        output.WriteRawTag(13);
+        output.WriteFloat(X);
+      }
+      if (Y != 0F) {
+        output.WriteRawTag(21);
+        output.WriteFloat(Y);
+      }
+      if (RotZ != 0F) {
+        output.WriteRawTag(29);
+        output.WriteFloat(RotZ);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (X != 0F) {
+        size += 1 + 4;
+      }
+      if (Y != 0F) {
+        size += 1 + 4;
+      }
+      if (RotZ != 0F) {
+        size += 1 + 4;
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(BulletPack other) {
       if (other == null) {
         return;
       }

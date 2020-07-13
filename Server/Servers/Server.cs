@@ -14,6 +14,9 @@ namespace ServerFramework.Servers
         /// 服务端socket
         /// </summary>
         private Socket socket;
+
+        public UDPServer udpServer;
+
         /// <summary>
         /// 所有连接的客户端
         /// </summary>
@@ -26,6 +29,8 @@ namespace ServerFramework.Servers
         /// 控制层
         /// </summary>
         private ControllerManager controllerManager;
+
+
 
         /// <summary>
         /// 初始化服务器并开始监听端口
@@ -42,6 +47,8 @@ namespace ServerFramework.Servers
             socket.Bind(new IPEndPoint(IPAddress.Parse(ip), endPoint));
             socket.Listen(maxNumClients);
             StartAccept();
+            Console.WriteLine("tcp服务已启动");
+            udpServer = new UDPServer(6667, this, controllerManager);
         }
 
         /// <summary>
@@ -50,7 +57,7 @@ namespace ServerFramework.Servers
         private void StartAccept()
         {
             socket.BeginAccept(AcceptCallBack, null);
-            Console.WriteLine(DateTime.Now+":开始等待"+clients.Count+"号连接....");
+            //Console.WriteLine(DateTime.Now+":开始等待"+clients.Count+"号连接....");
         }
         
         /// <summary>
@@ -60,10 +67,22 @@ namespace ServerFramework.Servers
         private void AcceptCallBack(IAsyncResult ar)
         {
             Socket client = socket.EndAccept(ar);
-            Console.WriteLine(DateTime.Now+":"+client.RemoteEndPoint+ "已连接....");
+            //Console.WriteLine(DateTime.Now+":"+client.RemoteEndPoint+ "已连接....");
             clients.Add(new Client(client,this));
-            Console.WriteLine("已添加进客户端列表");
+            //Console.WriteLine("已添加进客户端列表");
             StartAccept();
+        }
+
+        public Client GetClientFromUsername(string username)
+        {
+            foreach (Client c in clients)
+            {
+                if (c.Username==username)
+                {
+                    return c;
+                }
+            }
+            return null;
         }
 
         /// <summary>
